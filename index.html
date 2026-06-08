@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Career Roadmap Generator - Dynamic personalized learning paths with modern glassmorphism design, interactive checklists, progress tracking, and light/dark modes.">
+    <title>AuraPath AI // Intelligent Career Roadmap Generator</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Styles -->
+    <style>
+        /* CSS custom properties for theme styling */
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 0%, #150f2e 0%, #070311 100%);
+            --bg-solid: #090514;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --glass-hover-bg: rgba(255, 255, 255, 0.06);
+            --glass-hover-border: rgba(255, 255, 255, 0.15);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-violet: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            --accent-glow: rgba(139, 92, 246, 0.25);
+            --timeline-line: rgba(139, 92, 246, 0.2);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --card-glow: rgba(6, 182, 212, 0.05);
+            --checkbox-border: rgba(255, 255, 255, 0.15);
+            --checkbox-bg: rgba(255, 255, 255, 0.05);
+            --transition-speed: 0.3s;
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: radial-gradient(circle at 50% 0%, #f4e8ff 0%, #f8fafc 100%);
+            --bg-solid: #fafafa;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(124, 58, 237, 0.08);
+            --glass-hover-bg: rgba(255, 255, 255, 0.85);
+            --glass-hover-border: rgba(124, 58, 237, 0.18);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --accent-violet: #7c3aed;
+            --accent-cyan: #0891b2;
+            --accent-pink: #db2777;
+            --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
+            --accent-glow: rgba(124, 58, 237, 0.12);
+            --timeline-line: rgba(124, 58, 237, 0.15);
+            --shadow-color: rgba(124, 58, 237, 0.06);
+            --card-glow: rgba(8, 145, 178, 0.03);
+            --checkbox-border: rgba(15, 23, 42, 0.15);
+            --checkbox-bg: rgba(15, 23, 42, 0.03);
+        }
+
+        /* Basic Resets & Document Setup */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-color: var(--bg-solid);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            transition: background var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* Ambient background glow elements */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: -1;
+            opacity: 0.35;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            transition: opacity var(--transition-speed);
+        }
+
+        [data-theme="light"] .blob {
+            mix-blend-mode: multiply;
+            opacity: 0.15;
+            filter: blur(160px);
+        }
+
+        .blob-1 {
+            width: 450px;
+            height: 450px;
+            background: var(--accent-violet);
+            top: -10%;
+            left: 10%;
+            animation: float 25s ease-in-out infinite alternate;
+        }
+
+        .blob-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-cyan);
+            bottom: 15%;
+            right: 5%;
+            animation: float 30s ease-in-out infinite alternate-reverse;
+        }
+
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--accent-pink);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -40px) scale(1.1); }
+            100% { transform: translate(-30px, 60px) scale(0.9); }
+        }
+
+        /* Navigation Header */
+        header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            fill: none;
+            stroke: url(#brand-gradient);
+            stroke-width: 2;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.6rem;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--glass-hover-bg);
+            border-color: var(--glass-hover-border);
+            transform: scale(1.08) rotate(15deg);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .theme-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            transition: transform 0.5s ease;
+        }
+
+        /* Hide specific icons depending on current theme */
+        [data-theme="dark"] .sun-icon { display: block; }
+        [data-theme="dark"] .moon-icon { display: none; }
+        [data-theme="light"] .sun-icon { display: none; }
+        [data-theme="light"] .moon-icon { display: block; }
+
+        /* Main Container Layout */
+        main {
+            width: 100%;
+            max-width: 900px;
+            padding: 2rem 1.5rem 6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            z-index: 5;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            animation: fadeSlideUp 0.8s ease forwards;
+        }
+
+        .badge-ai {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+            border: 1px solid var(--glass-border);
+            color: var(--accent-cyan);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge-ai span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-cyan);
+            animation: pulse-glow 1.5s infinite alternate;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            max-width: 800px;
+        }
+
+        .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 620px;
+            line-height: 1.6;
+        }
+
+        /* Input Controls Panel */
+        .generator-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 40px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: fadeSlideUp 0.8s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.75rem;
+            position: relative;
+        }
+
+        .input-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .input-wrapper svg {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .generator-input {
+            width: 100%;
+            padding: 1.2rem 1.2rem 1.2rem 3.2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        [data-theme="light"] .generator-input {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .generator-input:focus {
+            border-color: var(--accent-violet);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] .generator-input:focus {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .generate-btn {
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .generate-btn:active {
+            transform: translateY(1px);
+        }
+
+        .quick-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        .quick-tags-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .tag-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.4rem 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag-btn:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--accent-violet);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        /* Loading Animation Screen */
+        .loading-container {
+            display: none;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            box-shadow: 0 20px 40px var(--shadow-color);
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .ai-pulse-loader {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-pulse-loader::before, .ai-pulse-loader::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            opacity: 0.15;
+            animation: ring-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+        }
+
+        .ai-pulse-loader::after {
+            animation-delay: 0.6s;
+        }
+
+        .loader-core {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent-violet);
+            animation: scale-pulse 1.2s ease-in-out infinite alternate;
+        }
+
+        .loading-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .loading-status {
+            color: var(--accent-cyan);
+            font-size: 0.95rem;
+            font-weight: 500;
+            min-height: 24px;
+            animation: pulse-glow 1s infinite alternate;
+        }
+
+        @keyframes ring-ripple {
+            0% { transform: scale(0.6); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        @keyframes scale-pulse {
+            0% { transform: scale(0.85); }
+            100% { transform: scale(1.15); }
+        }
+
+        /* Results Roadmap Section */
+        .roadmap-container {
+            display: none;
+            flex-direction: column;
+            gap: 2rem;
+            animation: fadeSlideUp 0.8s ease forwards;
+        }
+
+        /* Progress Card & Tracker */
+        .progress-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-gradient);
+        }
+
+        .progress-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .progress-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1;
+        }
+
+        .progress-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-container {
+            grid-column: span 2;
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        [data-theme="light"] .progress-bar-container {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            transition: width 0.5s cubic-bezier(0.1, 0.8, 0.3, 1);
+            position: relative;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+        }
+
+        .roadmap-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 0.85rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        [data-theme="light"] .meta-badge {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .meta-badge svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Timeline Layout styling */
+        .timeline-wrapper {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Timeline Core Vertical Line */
+        .timeline-line {
+            position: absolute;
+            left: 11px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--timeline-line);
+            border-radius: 2px;
+        }
+
+        /* Interactive Timeline Card Nodes */
+        .milestone-node {
+            position: relative;
+            margin-bottom: 2rem;
+            animation: fadeSlideUp 0.6s ease forwards;
+        }
+
+        .milestone-node:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Circular Marker on the timeline */
+        .milestone-marker {
+            position: absolute;
+            left: -2.5rem;
+            top: 16px;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: var(--bg-solid);
+            border: 3px solid var(--glass-border);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .milestone-node.completed .milestone-marker {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+
+        .milestone-marker::after {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: all 0.4s ease;
+        }
+
+        .milestone-node.completed .milestone-marker::after {
+            background: var(--bg-solid);
+            width: 9px;
+            height: 9px;
+        }
+
+        /* Accordion Glass Card */
+        .milestone-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .milestone-card:hover {
+            background: var(--glass-hover-bg);
+            border-color: var(--glass-hover-border);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .milestone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            user-select: none;
+        }
+
+        .milestone-header-main {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            flex-grow: 1;
+        }
+
+        .milestone-phase {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-violet);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .milestone-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-primary);
+        }
+
+        .milestone-accordion-icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .milestone-node.expanded .milestone-accordion-icon {
+            transform: rotate(180deg);
+            stroke: var(--text-primary);
+        }
+
+        /* Card Content - Collapsible section */
+        .milestone-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .milestone-node.expanded .milestone-content {
+            max-height: 1000px; /* arbitrary height to slide down */
+        }
+
+        .milestone-body-divider {
+            height: 1px;
+            background: var(--glass-border);
+            margin: 1.25rem 0;
+        }
+
+        /* Tasks checklist */
+        .tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        .task-checkbox-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-top: 2px;
+        }
+
+        .task-checkbox-input {
+            opacity: 0;
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid var(--checkbox-border);
+            background: var(--checkbox-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .task-checkbox-input:checked + .custom-checkbox {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 8px var(--accent-cyan);
+        }
+
+        .custom-checkbox svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--bg-solid);
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0;
+            transform: scale(0.6);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .task-checkbox-input:checked + .custom-checkbox svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .task-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            transition: all 0.3s ease;
+        }
+
+        .task-checkbox-input:checked ~ .task-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+            text-decoration-color: rgba(6, 182, 212, 0.4);
+        }
+
+        /* Resources section inside milestones */
+        .resources-wrapper {
+            margin-top: 1.5rem;
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        [data-theme="light"] .resources-wrapper {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .resources-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .resources-title svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .resources-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .resource-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .resource-link:hover {
+            background: var(--accent-cyan);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(6, 182, 212, 0.25);
+        }
+
+        .resource-link svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Control utility buttons for results */
+        .results-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--glass-hover-bg);
+            border-color: var(--glass-hover-border);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .action-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Canvas Particle Confetti overlay */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Footer styling */
+        footer {
+            width: 100%;
+            max-width: 1200px;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: auto;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-violet);
+        }
+
+        /* Keyframes */
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.6; filter: brightness(0.9); }
+            100% { opacity: 1; filter: brightness(1.2); }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .generate-btn {
+                padding: 1rem;
+                justify-content: center;
+            }
+            .progress-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .progress-bar-container {
+                grid-column: span 1;
+            }
+            .timeline-wrapper {
+                padding-left: 2rem;
+            }
+            .timeline-line {
+                left: 9px;
+            }
+            .milestone-marker {
+                left: -2rem;
+                width: 21px;
+                height: 21px;
+                top: 14px;
+            }
+            .milestone-card {
+                padding: 1.25rem;
+            }
+            .milestone-title {
+                font-size: 1.1rem;
+            }
+            footer {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Print Media Queries */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            header, .hero, .generator-panel, .results-actions, .blob, #confetti-canvas, footer {
+                display: none !important;
+            }
+            main {
+                max-width: 100% !important;
+                padding: 0;
+            }
+            .roadmap-container {
+                display: flex !important;
+            }
+            .progress-card {
+                border: 1px solid #ccc;
+                box-shadow: none;
+                background: white;
+            }
+            .milestone-card {
+                background: white;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            .milestone-content {
+                max-height: none !important;
+            }
+            .milestone-marker {
+                border-color: #333;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Floating Gradients -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Canvas Confetti Overlay -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">
+            <svg viewBox="0 0 32 32">
+                <defs>
+                    <linearGradient id="brand-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#8b5cf6" />
+                        <stop offset="100%" stop-color="#06b6d4" />
+                    </linearGradient>
+                </defs>
+                <path d="M6 26L16 6L26 26H6Z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 20L16 12L20 20H12Z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>AuraPath AI</span>
+        </div>
+        <div class="nav-actions">
+            <!-- Dark / Light Mode Toggle Button -->
+            <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme">
+                <!-- Sun Icon for Light Mode -->
+                <svg class="sun-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <!-- Moon Icon for Dark Mode -->
+                <svg class="moon-icon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="badge-ai">
+                <span></span> Powered by AuraPath AI Engine
+            </div>
+            <h1>Generate Your Personalized <span class="gradient-text">Career Roadmap</span></h1>
+            <p>Enter any career dream or specialized goal below. Our generator will map out a customized, phase-by-phase learning journey complete with core milestones and verified resources.</p>
+        </section>
+
+        <!-- Search Input and Generation Panel -->
+        <section class="generator-panel">
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <!-- Search Icon -->
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="career-input" class="generator-input" placeholder="e.g., Cloud Engineer, Data Scientist, Cybersecurity Analyst..." autocomplete="off">
+                </div>
+                <button id="generate-btn" class="generate-btn">
+                    <span>Generate</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+            <div class="quick-tags">
+                <span class="quick-tags-label">Popular Roads:</span>
+                <button class="tag-btn" onclick="selectQuickTag('Cloud Engineer')">Cloud Engineer</button>
+                <button class="tag-btn" onclick="selectQuickTag('Data Scientist')">Data Scientist</button>
+                <button class="tag-btn" onclick="selectQuickTag('Cybersecurity Analyst')">Cybersecurity Analyst</button>
+                <button class="tag-btn" onclick="selectQuickTag('Frontend Developer')">Frontend Developer</button>
+                <button class="tag-btn" onclick="selectQuickTag('Backend Developer')">Backend Developer</button>
+                <button class="tag-btn" onclick="selectQuickTag('Product Manager')">Product Manager</button>
+            </div>
+        </section>
+
+        <!-- Loading Interface (Visible during simulated generation) -->
+        <section class="loading-container" id="loading-container">
+            <div class="ai-pulse-loader">
+                <div class="loader-core"></div>
+            </div>
+            <div class="loading-title">Synthesizing learning path...</div>
+            <div class="loading-status" id="loading-status">Analyzing target industry guidelines...</div>
+        </section>
+
+        <!-- Roadmap Output Section -->
+        <section class="roadmap-container" id="roadmap-container">
+            
+            <!-- Global Progress Board -->
+            <div class="progress-card">
+                <div class="progress-info">
+                    <span class="progress-title">Roadmap Tracker</span>
+                    <h2 class="progress-value" id="progress-text">0%</h2>
+                    <span class="progress-subtitle" id="progress-stats">Completed 0 of 0 checklist milestones</span>
+                </div>
+                <div class="roadmap-meta">
+                    <div class="meta-badge" id="difficulty-badge">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                        <span>Intermediate</span>
+                    </div>
+                    <div class="meta-badge" id="duration-badge">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>6 Months</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <!-- Timeline Core Wrapper -->
+            <div class="timeline-wrapper">
+                <div class="timeline-line"></div>
+                <!-- Timeline milestones injected dynamically here -->
+                <div id="timeline-nodes-container"></div>
+            </div>
+
+            <!-- Utility controls -->
+            <div class="results-actions">
+                <button class="action-btn" onclick="resetProgress()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                    </svg>
+                    <span>Reset Tasks</span>
+                </button>
+                <button class="action-btn" onclick="exportJSON()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Save Roadmap</span>
+                </button>
+                <button class="action-btn" onclick="window.print()">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    <span>Print PDF</span>
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 AuraPath AI. All rights reserved.</p>
+        <p>Built with Glassmorphism Design System. No external dependencies.</p>
+    </footer>
+
+    <!-- JavaScript Application Code -->
+    <script>
+        // Core Roadmap database definitions
+        const ROADMAPS_DB = {
+            "cloud engineer": {
+                title: "Cloud Engineer Roadmap",
+                difficulty: "Intermediate",
+                duration: "6 Months",
+                phases: [
+                    {
+                        phase: "Phase 1",
+                        title: "Networking & Linux Fundamentals",
+                        tasks: [
+                            "Learn Linux command line operations (directories, scripting, users)",
+                            "Understand Linux system administration (permissions, systemd, services)",
+                            "Master core Networking concepts (IP addressing, Subnets, DNS, TCP/IP vs UDP)",
+                            "Learn basics of HTTP/S, SSL/TLS, and SSH keys protocol",
+                            "Familiarize with Git for version control and basic branch operations"
+                        ],
+                        resources: [
+                            { name: "Linux Journey (Free tutorials)", url: "https://linuxjourney.com/" },
+                            { name: "freeCodeCamp Network Course", url: "https://www.freecodecamp.org/news/free-computer-networking-course/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 2",
+                        title: "Cloud Providers Core Services",
+                        tasks: [
+                            "Choose a cloud platform (AWS, Azure, or GCP)",
+                            "Learn Identity & Access Management (IAM) permissions and security best practices",
+                            "Study virtual compute instances (AWS EC2, Azure VM, GCP Compute Engine)",
+                            "Understand Virtual Networks (AWS VPC, Azure VNet, Security Groups)",
+                            "Explore Object Storage systems (AWS S3, Azure Blob Storage)"
+                        ],
+                        resources: [
+                            { name: "AWS Skill Builder", url: "https://explore.skillbuilder.aws/" },
+                            { name: "Microsoft Learn Azure Paths", url: "https://learn.microsoft.com/en-us/training/azure/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 3",
+                        title: "Containers & DevOps Automation",
+                        tasks: [
+                            "Learn Docker basics (containers, images, registry, volume, network)",
+                            "Write custom Dockerfiles to package simple web applications",
+                            "Understand CI/CD principles and automated code integration pipelines",
+                            "Build basic deployment pipelines using GitHub Actions, GitLab CI, or Jenkins",
+                            "Write basic Bash or Python automation scripts for tasks"
+                        ],
+                        resources: [
+                            { name: "Docker Official Get Started", url: "https://docs.docker.com/get-started/" },
+                            { name: "GitHub Actions Guide", url: "https://docs.github.com/en/actions" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 4",
+                        title: "Infrastructure as Code & Orchestration",
+                        tasks: [
+                            "Learn Infrastructure as Code (IaC) using Terraform syntax & resources",
+                            "Build and version infrastructure deployments using Terraform configurations",
+                            "Understand Container Orchestration basics (Kubernetes architecture, pods, services)",
+                            "Deploy a basic application to a Kubernetes cluster",
+                            "Set up monitoring and logging tools (Prometheus, Grafana, CloudWatch)"
+                        ],
+                        resources: [
+                            { name: "Terraform Tutorials by HashiCorp", url: "https://developer.hashicorp.com/terraform/tutorials" },
+                            { name: "Kubernetes interactive tutorials", url: "https://kubernetes.io/docs/tutorials/" }
+                        ]
+                    }
+                ]
+            },
+            "data scientist": {
+                title: "Data Scientist Roadmap",
+                difficulty: "Advanced",
+                duration: "9 Months",
+                phases: [
+                    {
+                        phase: "Phase 1",
+                        title: "Mathematical Foundations & Python",
+                        tasks: [
+                            "Master linear algebra core concepts (matrix multiplication, eigenvalues)",
+                            "Understand calculus concepts (derivatives, partial derivatives, gradients)",
+                            "Study statistics (probability distributions, hypothesis testing, regression)",
+                            "Learn core Python programming (lists, dictionaries, loops, functions)",
+                            "Understand version control with Git and Jupyter Notebook layouts"
+                        ],
+                        resources: [
+                            { name: "3Blue1Brown Linear Algebra", url: "https://www.3blue1brown.com/topics/linear-algebra" },
+                            { name: "Kaggle Python Course", url: "https://www.kaggle.com/learn/python" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 2",
+                        title: "Data Manipulation & SQL",
+                        tasks: [
+                            "Learn Pandas library for data cleaning, joining, and aggregation",
+                            "Learn NumPy library for scientific operations and arrays",
+                            "Master SQL data querying (joins, aggregation, subqueries)",
+                            "Study data visualization libraries (Matplotlib, Seaborn)",
+                            "Practice cleaning real datasets (imputing values, scaling attributes)"
+                        ],
+                        resources: [
+                            { name: "Mode SQL Tutorial", url: "https://mode.com/sql-tutorial/" },
+                            { name: "Pandas User Guide", url: "https://pandas.pydata.org/docs/user_guide/index.html" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 3",
+                        title: "Machine Learning Foundations",
+                        tasks: [
+                            "Understand Supervised Learning algorithms (Linear Regression, Decision Trees)",
+                            "Study Classification algorithms (Logistic Regression, Random Forest, SVMs)",
+                            "Understand Unsupervised Learning algorithms (K-Means Clustering, PCA)",
+                            "Master Model Evaluation (Cross-validation, ROC/AUC, confusion matrix)",
+                            "Practice scikit-learn library implementations on real Kaggle datasets"
+                        ],
+                        resources: [
+                            { name: "StatQuest ML Playlist", url: "https://youtube.com/playlist?list=PLtBw6njKTIkb340T_ZfA6h-Z94V8N3X6h" },
+                            { name: "Kaggle Intro to Machine Learning", url: "https://www.kaggle.com/learn/intro-to-machine-learning" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 4",
+                        title: "Deep Learning & MLOps Infrastructure",
+                        tasks: [
+                            "Understand artificial neural network architectures and backpropagation",
+                            "Learn deep learning frameworks (PyTorch or TensorFlow)",
+                            "Explore NLP or Computer Vision basics depending on specialization",
+                            "Implement model deployment using APIs (Flask, FastAPI, Docker)",
+                            "Study standard pipeline tracking tools (MLflow, Weights & Biases)"
+                        ],
+                        resources: [
+                            { name: "Fast.ai Practical Deep Learning", url: "https://course.fast.ai/" },
+                            { name: "Hugging Face Learn Course", url: "https://huggingface.co/learn" }
+                        ]
+                    }
+                ]
+            },
+            "cybersecurity analyst": {
+                title: "Cybersecurity Analyst Roadmap",
+                difficulty: "Intermediate",
+                duration: "6 Months",
+                phases: [
+                    {
+                        phase: "Phase 1",
+                        title: "System & Network Fundamentals",
+                        tasks: [
+                            "Master OSI networking layers and operational network protocols (TCP, UDP, DNS, ICMP)",
+                            "Learn network packet structures, ports, routing, and switching basics",
+                            "Master Linux and Windows system administration command utilities",
+                            "Understand core security principles (CIA Triad, Least Privilege, Defense in Depth)",
+                            "Study basic cryptography architectures (Symmetric, Asymmetric, Hash functions)"
+                        ],
+                        resources: [
+                            { name: "TryHackMe Pre-Security Path", url: "https://tryhackme.com/path/outline/presecurity" },
+                            { name: "Professor Messer Network+", url: "https://www.professormesser.com/network-plus/n10-008/n10-008-video-index/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 2",
+                        title: "Security Tooling & Infrastructure",
+                        tasks: [
+                            "Learn active network scanning methodologies using Nmap and Netcat",
+                            "Perform protocol and trace analysis using Wireshark packet captures",
+                            "Understand defensive controls (Firewalls, IDS/IPS, VPN, Proxies)",
+                            "Identify OWASP Top 10 vulnerabilities (XSS, SQL Injection, CSRF)",
+                            "Study basic social engineering tactics, email headers, and phishing structures"
+                        ],
+                        resources: [
+                            { name: "OWASP Top 10 Reference", url: "https://owasp.org/www-project-top-ten/" },
+                            { name: "Wireshark User Guide", url: "https://www.wireshark.org/docs/wsug_html_chunked/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 3",
+                        title: "Incident Response & SIEM Monitoring",
+                        tasks: [
+                            "Understand Security Information and Event Management (SIEM) systems (Splunk, ELK)",
+                            "Write monitoring logs search queries and build dashboards in Splunk",
+                            "Perform host-based log analysis (Windows Event Viewer, Linux Syslog)",
+                            "Analyze malware behaviors in dynamic sandboxing environments",
+                            "Study standard Incident Response lifecycle phases (NIST guidelines)"
+                        ],
+                        resources: [
+                            { name: "Splunk Free Tutorials", url: "https://www.splunk.com/en_us/training/free-courses.html" },
+                            { name: "NIST Incident Handling Guide", url: "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 4",
+                        title: "Defensive Operations & Certification Prep",
+                        tasks: [
+                            "Implement Network Security Monitoring (NSM) analytics (Zeek, Suricata)",
+                            "Conduct system vulnerability scans using Nessus scanner reports",
+                            "Study threat intelligence gathering methods and MITRE ATT&CK maps",
+                            "Build a personal security lab for analyzing system configuration compromises",
+                            "Study for security certifications (CompTIA Security+ or Google Cybersecurity Certificate)"
+                        ],
+                        resources: [
+                            { name: "TryHackMe SOC Level 1 Path", url: "https://tryhackme.com/path/outline/soclevel1" },
+                            { name: "MITRE ATT&CK Framework Map", url: "https://attack.mitre.org/" }
+                        ]
+                    }
+                ]
+            },
+            "frontend developer": {
+                title: "Frontend Developer Roadmap",
+                difficulty: "Beginner",
+                duration: "4 Months",
+                phases: [
+                    {
+                        phase: "Phase 1",
+                        title: "Web Core Elements",
+                        tasks: [
+                            "Learn semantic HTML5 tags for standard accessibility",
+                            "Understand CSS foundation (selectors, box model, sizing values)",
+                            "Master modern layout engines (Flexbox and Grid)",
+                            "Implement responsive mobile-first views using CSS media queries",
+                            "Learn Git basics (add, commit, push, pull, simple branches)"
+                        ],
+                        resources: [
+                            { name: "MDN HTML & CSS guides", url: "https://developer.mozilla.org/" },
+                            { name: "Flexbox Froggy Game", url: "https://flexboxfroggy.com/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 2",
+                        title: "JavaScript Programming & DOM",
+                        tasks: [
+                            "Master JavaScript variables, structures, conditions, and operations",
+                            "Learn DOM manipulation (events, querySelector, dynamic node creation)",
+                            "Study ES6+ improvements (promises, arrow functions, destructuring)",
+                            "Fetch JSON data using Fetch API, handling async/await operations",
+                            "Learn NPM ecosystem, project configuration, and bundlers (Vite)"
+                        ],
+                        resources: [
+                            { name: "Javascript.info Tutorials", url: "https://javascript.info/" },
+                            { name: "Wes Bos JS 30 Day Course", url: "https://javascript30.com/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 3",
+                        title: "Frontend Frameworks (React)",
+                        tasks: [
+                            "Understand components, JSX, properties (props), and states in React",
+                            "Master core hooks: useState, useEffect, and useRef",
+                            "Learn client-side routing concepts using React Router",
+                            "Study state management setups (Context API or Redux Toolkit)",
+                            "Implement styling options using CSS Modules, Sass, or Tailwind CSS"
+                        ],
+                        resources: [
+                            { name: "React Official Dev Docs", url: "https://react.dev/" },
+                            { name: "freeCodeCamp React Course", url: "https://www.freecodecamp.org/news/free-react-course-2024/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 4",
+                        title: "Next-Gen Frameworks & Deployments",
+                        tasks: [
+                            "Understand SSR (Server-Side Rendering) vs SSG (Static Site Generation) using Next.js",
+                            "Understand Next.js App Router structure and data fetch layouts",
+                            "Write tests using Jest and React Testing Library configurations",
+                            "Learn web performance optimizations (lazy loading, responsive assets, lighthouse scoring)",
+                            "Deploy production applications using Vercel, Netlify, or GitHub Pages"
+                        ],
+                        resources: [
+                            { name: "Next.js Learning Paths", url: "https://nextjs.org/learn" },
+                            { name: "Google PageSpeed Optimizations", url: "https://pagespeed.web.dev/" }
+                        ]
+                    }
+                ]
+            },
+            "backend developer": {
+                title: "Backend Developer Roadmap",
+                difficulty: "Intermediate",
+                duration: "6 Months",
+                phases: [
+                    {
+                        phase: "Phase 1",
+                        title: "Backend Language Foundations",
+                        tasks: [
+                            "Select and master a backend language (Node.js/JS, Python, Go, or Java)",
+                            "Understand execution context, async models, and file system commands",
+                            "Master Git version control, repositories collaboration, and merge conflicts",
+                            "Understand client-server architecture, HTTP structure, and RESTful API standards",
+                            "Write functional unit tests for your basic programming tasks"
+                        ],
+                        resources: [
+                            { name: "Node.js Official Documentation", url: "https://nodejs.org/" },
+                            { name: "Real Python Tutorials", url: "https://realpython.com/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 2",
+                        title: "Databases & CRUD API Design",
+                        tasks: [
+                            "Understand relational database schemas and SQL querying (PostgreSQL or MySQL)",
+                            "Implement relational tables indexing, keys relationships, and transactions",
+                            "Explore document-based NoSQL database services (MongoDB)",
+                            "Build robust REST endpoints using server frameworks (Express.js or FastAPI)",
+                            "Learn configuration management, environment parameters, and log handlers"
+                        ],
+                        resources: [
+                            { name: "SQLBolt Interactive Tutorial", url: "https://sqlbolt.com/" },
+                            { name: "PostgreSQL Tutorial Site", url: "https://www.postgresqltutorial.com/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 3",
+                        title: "Security, Authentication & Operations",
+                        tasks: [
+                            "Implement secure user Authentication flows (Sessions, JWT cookies, OAuth2)",
+                            "Encrypt user credentials storage with secure hashing algorithms (bcrypt)",
+                            "Learn backend caching patterns using key-value memory blocks (Redis)",
+                            "Explore API security architectures (CORS, Rate Limiting, sanitization)",
+                            "Study WebSockets or Server-Sent Events protocols for real-time channels"
+                        ],
+                        resources: [
+                            { name: "OWASP Cheat Sheet Series", url: "https://cheatsheetseries.owasp.org/" },
+                            { name: "JWT.io Introduction", url: "https://jwt.io/introduction" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 4",
+                        title: "System Architectures & Container Deployments",
+                        tasks: [
+                            "Build application configuration containers using Docker packaging commands",
+                            "Understand Load Balancers, Reverse Proxy (Nginx), and cluster configuration setups",
+                            "Understand message-based queues operations (RabbitMQ or Kafka queues)",
+                            "Learn system telemetry tools (Prometheus, logging aggregation)",
+                            "Deploy a secure containerized API to virtual servers (AWS EC2 or Render)"
+                        ],
+                        resources: [
+                            { name: "Dockerize Web App Guides", url: "https://docs.docker.com/language/" },
+                            { name: "ByteByteGo System Design Basics", url: "https://bytebytego.com/" }
+                        ]
+                    }
+                ]
+            },
+            "product manager": {
+                title: "Product Manager Roadmap",
+                difficulty: "Intermediate",
+                duration: "5 Months",
+                phases: [
+                    {
+                        phase: "Phase 1",
+                        title: "Foundations & Agile Mechanics",
+                        tasks: [
+                            "Understand the product development lifecycle and cross-functional team roles",
+                            "Master Agile, Scrum, and Kanban methodologies for sprints",
+                            "Learn to write clear, action-oriented User Stories and Product Requirements Documents (PRDs)",
+                            "Learn to identify, define, and track key metric KPIs (DAU, Churn, Retention, LTV)",
+                            "Practice analyzing existing products to break down customer pain points"
+                        ],
+                        resources: [
+                            { name: "Product School Resource Center", url: "https://productschool.com/resources" },
+                            { name: "Atlassian Scrum Methodology Guide", url: "https://www.atlassian.com/agile/scrum" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 2",
+                        title: "User Research & Analytical Tracking",
+                        tasks: [
+                            "Learn user research methods, writing scripts, and running surveys",
+                            "Understand A/B testing principles, confidence levels, and user segment splits",
+                            "Learn how to navigate product analytics engines (Amplitude, Mixpanel)",
+                            "Familiarize with UX/UI design wireframing layouts inside Figma",
+                            "Master tracking and grouping analytics events data"
+                        ],
+                        resources: [
+                            { name: "Mixpanel Product Analytics Guide", url: "https://mixpanel.com/blog/" },
+                            { name: "Figma Fundamentals Videos", url: "https://www.figma.com/resource-library/design-basics/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 3",
+                        title: "Product Strategy & Prioritization",
+                        tasks: [
+                            "Understand standard prioritization scoring frameworks (RICE, MoSCoW)",
+                            "Align roadmap objectives with larger corporate values and business strategies",
+                            "Create timelines mapping goals to feature phases over quarterly milestones",
+                            "Conduct detailed competitive intelligence analysis matrix reports",
+                            "Coordinate cross-team syncs aligning Engineering, Marketing, and Sales priorities"
+                        ],
+                        resources: [
+                            { name: "Silicon Valley Product Group (SVPG)", url: "https://www.svpg.com/articles/" },
+                            { name: "RICE Framework Guide by Intercom", url: "https://www.intercom.com/blog/rice-simple-prioritization-for-product-managers/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 4",
+                        title: "Market Execution & Growth Mechanics",
+                        tasks: [
+                            "Define a Go-To-Market (GTM) launch strategy framework",
+                            "Orchestrate product alpha/beta test programs with client pools",
+                            "Analyze launch feedback logs to plan features iterations priority tasks",
+                            "Understand Product-Led Growth (PLG) mechanics and user onboarding flows",
+                            "Study post-launch evaluation methodologies"
+                        ],
+                        resources: [
+                            { name: "Reforge Growth Strategies", url: "https://www.reforge.com/blog" },
+                            { name: "Mind the Product PM Community", url: "https://www.mindtheproduct.com/" }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // State variables
+        let activeRoadmap = null;
+        let checkedTasks = {}; // Structure: { "milestoneIndex-taskIndex": true }
+
+        // DOM elements cache
+        const htmlElement = document.documentElement;
+        const themeToggleBtn = document.getElementById("theme-toggle");
+        const careerInput = document.getElementById("career-input");
+        const generateBtn = document.getElementById("generate-btn");
+        const loadingContainer = document.getElementById("loading-container");
+        const loadingStatus = document.getElementById("loading-status");
+        const roadmapContainer = document.getElementById("roadmap-container");
+        const timelineContainer = document.getElementById("timeline-nodes-container");
+        const progressBarFill = document.getElementById("progress-bar-fill");
+        const progressText = document.getElementById("progress-text");
+        const progressStats = document.getElementById("progress-stats");
+        const difficultyBadge = document.querySelector("#difficulty-badge span");
+        const durationBadge = document.querySelector("#duration-badge span");
+        const confettiCanvas = document.getElementById("confetti-canvas");
+
+        // Theme initialization and event handling
+        function initTheme() {
+            const savedTheme = localStorage.getItem("aura-theme") || "dark";
+            htmlElement.setAttribute("data-theme", savedTheme);
+        }
+
+        themeToggleBtn.addEventListener("click", () => {
+            const currentTheme = htmlElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            htmlElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("aura-theme", newTheme);
+        });
+
+        // Quick Tag click logic
+        function selectQuickTag(tagText) {
+            careerInput.value = tagText;
+            triggerRoadmapGeneration();
+        }
+
+        // Search Input triggers
+        careerInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                triggerRoadmapGeneration();
+            }
+        });
+
+        generateBtn.addEventListener("click", () => {
+            triggerRoadmapGeneration();
+        });
+
+        // Loading phase simulation helper
+        const LOADING_STEPS = [
+            "Analyzing target industry requirements...",
+            "Querying AuraPath knowledge graph...",
+            "Synthesizing career progression milestones...",
+            "Mapping task items and prerequisites...",
+            "Curating learning resources and references...",
+            "Finalizing timeline visual structure!"
+        ];
+
+        function triggerRoadmapGeneration() {
+            const query = careerInput.value.trim().toLowerCase();
+            if (!query) {
+                alert("Please enter a career target first!");
+                return;
+            }
+
+            // Reset dynamic states
+            roadmapContainer.style.display = "none";
+            loadingContainer.style.display = "flex";
+            
+            // Scroll smoothly to loader
+            loadingContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Cycle loading status text
+            let stepIndex = 0;
+            loadingStatus.textContent = LOADING_STEPS[stepIndex];
+            const statusInterval = setInterval(() => {
+                stepIndex++;
+                if (stepIndex < LOADING_STEPS.length) {
+                    loadingStatus.textContent = LOADING_STEPS[stepIndex];
+                }
+            }, 300);
+
+            // Simulate generation latency (1.8s)
+            setTimeout(() => {
+                clearInterval(statusInterval);
+                loadingContainer.style.display = "none";
+                
+                // Identify target roadmap data
+                let matchingData = ROADMAPS_DB[query];
+                if (!matchingData) {
+                    // Search DB for close partial match
+                    const dbKeys = Object.keys(ROADMAPS_DB);
+                    const matchingKey = dbKeys.find(key => query.includes(key) || key.includes(query));
+                    
+                    if (matchingKey) {
+                        matchingData = ROADMAPS_DB[matchingKey];
+                    } else {
+                        // Generate procedural customized roadmap
+                        matchingData = generateProceduralRoadmap(careerInput.value.trim());
+                    }
+                }
+
+                activeRoadmap = matchingData;
+                checkedTasks = {}; // Reset tracking
+                
+                // Populate interface values
+                difficultyBadge.textContent = activeRoadmap.difficulty;
+                durationBadge.textContent = activeRoadmap.duration;
+                
+                renderRoadmap(activeRoadmap);
+                updateProgressBar();
+                
+                roadmapContainer.style.display = "flex";
+                
+                // Scroll smoothly to output
+                roadmapContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 1800);
+        }
+
+        // Procedural generator fallback algorithm
+        function generateProceduralRoadmap(careerTitle) {
+            // Capitalize title segments
+            const capitalizedTitle = careerTitle.split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+
+            return {
+                title: `${capitalizedTitle} Career Path`,
+                difficulty: "Intermediate",
+                duration: "6 Months",
+                phases: [
+                    {
+                        phase: "Phase 1",
+                        title: `Foundations of ${capitalizedTitle}`,
+                        tasks: [
+                            `Learn core terminology and baseline concepts in ${capitalizedTitle}`,
+                            "Set up professional developer workflow & version control (Git / GitHub)",
+                            `Configure environment, compilers, and IDE dependencies for ${capitalizedTitle} work`,
+                            "Connect with industry forums, newsletter updates, and local tech circles",
+                            "Build a personalized, structured learning plan with clear milestones"
+                        ],
+                        resources: [
+                            { name: "Google Learning Platform", url: "https://grow.google/" },
+                            { name: "freeCodeCamp YouTube Library", url: "https://www.youtube.com/@freecodecamp" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 2",
+                        title: "Core Mechanics & Tools",
+                        tasks: [
+                            "Master intermediate frameworks, scripting libraries, and syntax modules",
+                            "Build 3-4 small isolated scripts or functional components to test rules",
+                            "Understand local testing tools, validation schemas, and simple debug environments",
+                            "Study standard architecture styles and standard project folder structures",
+                            "Build database integrations or basic local storage operations"
+                        ],
+                        resources: [
+                            { name: "Roadmap.sh Directory", url: "https://roadmap.sh" },
+                            { name: "MDN Web Tutorials & References", url: "https://developer.mozilla.org/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 3",
+                        title: "Functional Projects & Optimization",
+                        tasks: [
+                            `Design and construct a comprehensive end-to-end ${capitalizedTitle} portfolio project`,
+                            "Implement safety validations, access controls, and rate limits",
+                            "Optimize asset storage, data indexing, and execution efficiency standards",
+                            "Publish source code publicly to GitHub with detailed README descriptions",
+                            "Engage in community code reviews or participate in local project hackathons"
+                        ],
+                        resources: [
+                            { name: "GitHub Explore Portal", url: "https://github.com/explore" },
+                            { name: "StackOverflow Q&A Reference", url: "https://stackoverflow.com/" }
+                        ]
+                    },
+                    {
+                        phase: "Phase 4",
+                        title: "Production Release & Professional Readiness",
+                        tasks: [
+                            `Publish your active application services live to cloud hosting nodes`,
+                            `Build a personal portfolio website displaying all ${capitalizedTitle} projects`,
+                            "Optimize your technical resume, GitHub projects index, and LinkedIn page profiles",
+                            "Practice technical interview scenarios, behavioral responses, and systems design",
+                            "Submit applications for internships, startup roles, and open contracts"
+                        ],
+                        resources: [
+                            { name: "LeetCode Practice Challenges", url: "https://leetcode.com/" },
+                            { name: "Glassdoor Career Insights", url: "https://www.glassdoor.com/" }
+                        ]
+                    }
+                ]
+            };
+        }
+
+        // Render HTML markup for the selected roadmap
+        function renderRoadmap(data) {
+            timelineContainer.innerHTML = "";
+
+            data.phases.forEach((p, milestoneIndex) => {
+                const nodeDiv = document.createElement("div");
+                nodeDiv.className = `milestone-node ${milestoneIndex === 0 ? "expanded" : ""}`;
+                nodeDiv.id = `node-${milestoneIndex}`;
+
+                // HTML structure for timeline element
+                nodeDiv.innerHTML = `
+                    <div class="milestone-marker"></div>
+                    <div class="milestone-card" onclick="toggleMilestone(${milestoneIndex}, event)">
+                        <div class="milestone-header">
+                            <div class="milestone-header-main">
+                                <span class="milestone-phase">${p.phase}</span>
+                                <h3 class="milestone-title">${p.title}</h3>
+                            </div>
+                            <svg class="milestone-accordion-icon" viewBox="0 0 24 24">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                        <div class="milestone-content" id="content-${milestoneIndex}">
+                            <div class="milestone-body-divider"></div>
+                            <div class="tasks-list">
+                                ${p.tasks.map((task, taskIndex) => {
+                                    const taskId = `${milestoneIndex}-${taskIndex}`;
+                                    const isChecked = checkedTasks[taskId] ? "checked" : "";
+                                    return `
+                                        <label class="task-item" onclick="stopPropagation(event)">
+                                            <div class="task-checkbox-wrapper">
+                                                <input type="checkbox" class="task-checkbox-input" data-task-id="${taskId}" ${isChecked} onchange="handleTaskChange('${taskId}', this)">
+                                                <div class="custom-checkbox">
+                                                    <svg viewBox="0 0 24 24">
+                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <span class="task-text">${task}</span>
+                                        </label>
+                                    `;
+                                }).join("")}
+                            </div>
+                            <div class="resources-wrapper">
+                                <h4 class="resources-title">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                    Verified Curated Resources
+                                </h4>
+                                <div class="resources-list">
+                                    ${p.resources.map(res => `
+                                        <a href="${res.url}" class="resource-link" target="_blank" rel="noopener noreferrer" onclick="stopPropagation(event)">
+                                            <span>${res.name}</span>
+                                            <svg viewBox="0 0 24 24">
+                                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                                <polyline points="7 7 17 7 17 17"></polyline>
+                                            </svg>
+                                        </a>
+                                    `).join("")}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                timelineContainer.appendChild(nodeDiv);
+            });
+            
+            // Initial animation height calculation for pre-expanded card
+            const openContent = document.getElementById("content-0");
+            openContent.style.maxHeight = openContent.scrollHeight + "px";
+        }
+
+        // Toggle card collapse states (accordion logic)
+        function toggleMilestone(index, event) {
+            const node = document.getElementById(`node-${index}`);
+            const content = document.getElementById(`content-${index}`);
+            const isExpanded = node.classList.contains("expanded");
+
+            if (isExpanded) {
+                content.style.maxHeight = "0px";
+                node.classList.remove("expanded");
+            } else {
+                content.style.maxHeight = content.scrollHeight + 150 + "px"; // add leeway for dynamic contents
+                node.classList.add("expanded");
+            }
+        }
+
+        // Helper to prevent clicks inside card elements from collapsing accordion
+        function stopPropagation(e) {
+            e.stopPropagation();
+        }
+
+        // Checkbox events handler
+        function handleTaskChange(taskId, checkbox) {
+            if (checkbox.checked) {
+                checkedTasks[taskId] = true;
+            } else {
+                delete checkedTasks[taskId];
+            }
+
+            // Visual highlight for completed milestones
+            const milestoneIndex = parseInt(taskId.split("-")[0]);
+            updateMilestoneCompletionState(milestoneIndex);
+            
+            updateProgressBar();
+        }
+
+        // Detect if all tasks inside a milestone are complete and update visual node marker
+        function updateMilestoneCompletionState(milestoneIndex) {
+            const node = document.getElementById(`node-${milestoneIndex}`);
+            if (!node) return;
+
+            const totalCheckboxes = node.querySelectorAll('.task-checkbox-input').length;
+            const checkedCheckboxes = node.querySelectorAll('.task-checkbox-input:checked').length;
+
+            if (totalCheckboxes > 0 && totalCheckboxes === checkedCheckboxes) {
+                node.classList.add("completed");
+            } else {
+                node.classList.remove("completed");
+            }
+        }
+
+        // Updates overall progress statistics and visuals
+        function updateProgressBar() {
+            if (!activeRoadmap) return;
+
+            const allCheckboxes = document.querySelectorAll(".task-checkbox-input");
+            const total = allCheckboxes.length;
+            
+            let completed = 0;
+            allCheckboxes.forEach(cb => {
+                if (cb.checked) completed++;
+            });
+
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            // Animate bar width and texts
+            progressBarFill.style.width = `${percentage}%`;
+            progressText.textContent = `${percentage}%`;
+            progressStats.textContent = `Completed ${completed} of ${total} roadmap milestones`;
+
+            // Fire custom particle canvas confetti upon 100% completion
+            if (percentage === 100 && total > 0) {
+                triggerConfettiCelebrate();
+            }
+        }
+
+        // Reset all active tasks in current roadmap view
+        function resetProgress() {
+            if (!confirm("Are you sure you want to reset your checklist progress?")) return;
+            
+            checkedTasks = {};
+            const checkboxes = document.querySelectorAll(".task-checkbox-input");
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+            });
+
+            // Reset node markers
+            const nodes = document.querySelectorAll(".milestone-node");
+            nodes.forEach(node => {
+                node.classList.remove("completed");
+            });
+
+            updateProgressBar();
+        }
+
+        // Download data representation of current roadmap
+        function exportJSON() {
+            if (!activeRoadmap) return;
+            
+            const exportData = {
+                roadmap: activeRoadmap.title,
+                difficulty: activeRoadmap.difficulty,
+                duration: activeRoadmap.duration,
+                progress: progressText.textContent,
+                checkedTasks: checkedTasks,
+                generatedAt: new Date().toISOString()
+            };
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `${activeRoadmap.title.toLowerCase().replace(/\s+/g, '_')}_roadmap.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // Custom Canvas particle confetti celebrate logic (no external dependencies)
+        let animationFrameId = null;
+        function triggerConfettiCelebrate() {
+            const ctx = confettiCanvas.getContext("2d");
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+
+            const colors = ['#8b5cf6', '#06b6d4', '#ec4899', '#f59e0b', '#10b981'];
+            const particles = [];
+            
+            // Build particles
+            for (let i = 0; i < 120; i++) {
+                particles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * confettiCanvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+                    tiltAngle: 0
+                });
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                let remaining = false;
+
+                particles.forEach((p) => {
+                    p.tiltAngle += p.tiltAngleIncremental;
+                    p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                    p.x += Math.sin(p.tiltAngle);
+                    p.tilt = Math.sin(p.tiltAngle - p.r / 2) * 4;
+
+                    if (p.y < confettiCanvas.height) {
+                        remaining = true;
+                    }
+
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                    ctx.stroke();
+                });
+
+                if (remaining) {
+                    animationFrameId = requestAnimationFrame(drawConfetti);
+                } else {
+                    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                    cancelAnimationFrame(animationFrameId);
+                }
+            }
+
+            cancelAnimationFrame(animationFrameId);
+            drawConfetti();
+        }
+
+        // Recalculate canvas boundaries on window resize
+        window.addEventListener('resize', () => {
+            if (confettiCanvas) {
+                confettiCanvas.width = window.innerWidth;
+                confettiCanvas.height = window.innerHeight;
+            }
+        });
+
+        // Initialize theme configuration
+        initTheme();
+
+    </script>
+</body>
+</html>
